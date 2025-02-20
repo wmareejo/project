@@ -64,3 +64,29 @@ th {
 td {
     background-color: #E0E1DD;
 }
+/* الوضع الليلي */
+.dark-mode {
+    background-color: #1B263B;
+    color: white;
+}
+
+.dark-mode table {
+    background-color: #415A77;
+}
+
+.dark-mode th {
+    background-color: #0D1B2A;
+}
+
+.dark-mode button {
+    background-color: #778DA9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.dark-mode button:hover {
+    background-color: #E0E1DD;
+    color: black;
+}
