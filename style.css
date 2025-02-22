@@ -200,3 +200,29 @@ footer nav ul li a {
 footer nav ul li a:hover {
     color: #778DA9;
 }
+.back-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #415A77; /* لون الزر */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background-color: #1B263B; /* لون الزر عند تحريك الماوس */
+}
+h2 {
+    display: block;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1B263B; /* لون النص أزرق غامق */
+    background-color: #778DA9; /* لون الخلفية أزرق فاتح */
+    padding: 10px; /* إضافة مسافة داخلية ليبدو أجمل */
+    border-radius: 5px; /* حواف مستديرة قليلاً */
+    text-transform: uppercase;
+}
