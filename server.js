@@ -2,8 +2,8 @@ console.log("Starting the server...");
 
 const express = require('express');
 const app = express();
-
-const PORT = process.env.PORT || 3000;
+const db = require('./db');
+const PORT = process.env.PORT || 9000;
 
 app.use(express.json());
 
@@ -25,6 +25,6 @@ app.get('/', (req, res) => {
     res.send('Server is running successfully!');
 });
 // تشغيل السيرفر
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(9000, () => {
+    console.log('Server is running! Visit: http://localhost:9000');
+  });  

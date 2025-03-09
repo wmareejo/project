@@ -1,5 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../db'); // Ensure this is correct
+
+router.get('/topics', (req, res) => {
+    console.log('Fetching topics...');
+    db.query('SELECT * FROM topics', (err, results) => {
+        if (err) {
+            console.error('Error fetching topics:', err);
+            return res.status(500).send('Error fetching topics');
+        }
+        console.log('Topics fetched:', results); // Log results
+        res.json(results); // Send the results as a response
+    });
+});
+
+module.exports = router;
+
+
+// Haya's original code
+
+const router = express.Router();
 
 // عرض جميع القوائم
 router.get('/', (req, res) => {
