@@ -1,29 +1,41 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const db = require("../db"); 
 
-// حفظ موضوع في العلامات المرجعية
-router.post('/:id/bookmark', (req, res) => {
-    console.log(`Bookmarking topic with ID: ${req.params.id}`);  // رسالة للسجل عند حفظ الموضوع في العلامات المرجعية
-    res.send(`Topic with ID ${req.params.id} bookmarked successfully!`);
+// عملية انشاء لاضافة موضوع في العلامة المرجعية
+router.post("/bookmarks", (req, res) => {
+    const { userId, topicId } = req.body;
+    const sql = "INSERT INTO bookmarks (user_id, topic_id) VALUES (?, ?)";
+    
+    db.query(sql, [userId, topicId], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: "Bookmark added!" });
+    });
 });
 
-// حذف موضوع من العلامات المرجعية
-router.delete('/:id/bookmark', (req, res) => {
-    console.log(`Removing topic with ID: ${req.params.id} from bookmarks`);  // رسالة للسجل عند حذف الموضوع من العلامات المرجعية
-    res.send(`Topic with ID ${req.params.id} removed from bookmarks successfully!`);
+// عملية قراءة لعرض المواضيع المحفوظة في العلامة المرجعية 
+router.get("/bookmarks/:userId", (req, res) => {
+    const sql = `
+        SELECT * FROM topics 
+        INNER JOIN bookmarks ON topics.id = bookmarks.topic_id 
+        WHERE bookmarks.user_id = ?
+    `;
+    
+    db.query(sql, [req.params.userId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(results);
+    });
 });
 
-// عرض المواضيع المحفوظة في العلامات المرجعية
-router.get('/bookmarks', (req, res) => {
-    console.log(`Fetching all bookmarked topics`);  // رسالة للسجل عند طلب المواضيع المحفوظة في العلامات المرجعية
-    res.send(`All bookmarked topics retrieved successfully!`);
-});
-
-// مشاركة المواضيع
-router.post('/:id/share', (req, res) => {
-    const { recipient } = req.body;
-    console.log(`Sharing topic with ID: ${req.params.id} with recipient: ${recipient}`);  // رسالة للسجل عند مشاركة الموضوع
-    res.send(`Topic with ID ${req.params.id} shared successfully with ${recipient}!`);
+// عملية حذف لازالة موضوع من العلامة المرجعية
+router.delete("/bookmarks", (req, res) => {
+    const { userId, topicId } = req.body;
+    const sql = "DELETE FROM bookmarks WHERE user_id = ? AND topic_id = ?";
+    
+    db.query(sql, [userId, topicId], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json({ message: "Bookmark removed!" });
+    });
 });
 
 module.exports = router;
