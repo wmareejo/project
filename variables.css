@@ -1,0 +1,13 @@
+/* الألــوان */
+:root {
+    --header-footer-color: #0D1B2A; /*لون الهيدر والفوتر*/
+    --background-color: #1B263B; /*لون خلفية الموقع*/
+    --content-cards-color: #415A77; /*لون المحتوى في الصفحة الرئيسية*/
+    --button-color: #778DA9; /*ألـــوان الأزرار*/
+    --text-color: #E0E1DD; /*لون النص*/
+
+    /* الخطوط */
+    --heading-font: 'Libre Baskerville', serif; /*العنوان*/
+    --title-font: 'Playfair Display', serif; /*العنوان الفرعي*/
+    --body-font: 'Roboto', sans-serif; /*المحتوى*/
+}
