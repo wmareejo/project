@@ -1,33 +1,28 @@
-CREATE DATABASE  CodeQuest1;
+CREATE DATABASE CodeQuest1;
 USE CodeQuest1;
-
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(30) NOT NULL,
-    email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(9) NOT NULL,
-    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+id INT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(30) NOT NULL,
+email VARCHAR(50) UNIQUE NOT NULL,
+password VARCHAR(255) NOT NULL,
+registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE TABLE categories(
-   category_id INT AUTO_INCREMENT PRIMARY KEY,
-   category_name VARCHAR(90) NOT NULL UNIQUE
+CREATE TABLE categories (
+category_id INT AUTO_INCREMENT PRIMARY KEY,
+category_name VARCHAR(90) NOT NULL UNIQUE
 );
-
 INSERT INTO categories (category_name) VALUES 
-('Programming languages/coding'),
-('Databases'),
+('Programming languages/Coding'),
+('DBMS'),
 ('Networks'),
 ('Quizzes');
-
 CREATE TABLE topics (
-    topic_id INT AUTO_INCREMENT PRIMARY KEY,
-    topic_name TEXT NOT NULL,
-    category_id INT,
-    content TEXT,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
+topic_id INT AUTO_INCREMENT PRIMARY KEY,
+topic_name VARCHAR(255) NOT NULL,
+category_id INT,
+content TEXT,
+FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
-
 INSERT INTO topics (topic_name, content, category_id) VALUES
 ('Introduction to Programming ','Programming is the process of writing instructions and commands for computers to execute specific tasks. It is one of the most essential skills in the modern era, used in application development, websites, artificial intelligence, and many other fields. Anyone can start learning programming through beginner-friendly languages such as Python and JavaScript, which are known for their simplicity and ease of use.',1),
 
@@ -396,57 +391,49 @@ Disadvantages of Internet Protocols:
 - Some protocols (e.g., TCP) may introduce latency due to error checking.
 Complexity in managing multiple protocol layers. ', 3);
 
-
 CREATE TABLE quizzes (
     quiz_id INT AUTO_INCREMENT PRIMARY KEY,
-    quiz_name VARCHAR(255) NOT NULL,
-	category_id INT,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
+    quiz_name VARCHAR(255) NOT NULL
 );
 
 INSERT INTO quizzes (quiz_name) VALUES ('Quiz Level 1'), ('Quiz Level 2');
 
-CREATE TABLE  questions (
-question_id INT AUTO_INCREMENT PRIMARY KEY,
-quiz_id INT,
-question_text TEXT NOT NULL,
-option_a TEXT,
-option_b TEXT,
-option_c TEXT,
-option_d TEXT,
-correct_answer char(1),
-question_type ENUM('True/False', 'Multiple Choice') NOT NULL,
-category VARCHAR(100),
-category_id INT,
- FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
+CREATE TABLE questions (
+    question_id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT,
+    question_text TEXT NOT NULL,
+    option_a TEXT,
+    option_b TEXT,
+    option_c TEXT,
+    option_d TEXT,
+    correct_answer CHAR(1),
+    question_type ENUM('True/False', 'Multiple Choice') NOT NULL,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
 );
+INSERT INTO questions (quiz_id, question_text, question_type, correct_answer) VALUES
+(1, 'Python is widely used in data science, artificial intelligence, and cybersecurity.', 'True/False', 'T'),
+(1, 'PHP cannot be used for e-commerce websites.', 'True/False', 'F'),
+(1, 'C# supports object-oriented programming and is commonly used in game development.', 'True/False', 'T'),
+(1, 'A Database Management System (DBMS) helps store, retrieve, and modify data efficiently.', 'True/False', 'T'),
+(1, 'A Personal Area Network (PAN) covers a larger area than a Wide Area Network (WAN).', 'True/False', 'F');
 
-INSERT INTO questions (quiz_id, category, question_text, question_type, correct_answer, category_id ) VALUES
-(27, 'Python', 'Python is widely used in data science, artificial intelligence, and cybersecurity.', 'True/False', 'T',4),
-(27, 'PHP', 'PHP cannot be used for e-commerce websites.', 'True/False', 'F',4),
-(27, 'C#', 'C# supports object-oriented programming and is commonly used in game development.', 'True/False', 'T',4),
-(27, 'DBMS', 'A Database Management System (DBMS) helps store, retrieve, and modify data efficiently.', 'True/False', 'T',4),
-(27, 'Networking', 'A Personal Area Network (PAN) covers a larger area than a Wide Area Network (WAN).', 'True/False', 'F',4);
+INSERT INTO questions (quiz_id, question_text, question_type, option_a, option_b, option_c, option_d, correct_answer) VALUES
+(1, 'Which of the following is a key advantage of Python?', 'Multiple Choice', 'Complex syntax', 'Beginner-friendly and powerful', 'Limited library support', 'Only used for web development', 'B'),
+(1, 'Which language is commonly used for server-side scripting in web development?', 'Multiple Choice', 'Python', 'PHP', 'C#', 'JavaScript', 'B'),
+(2, 'Which of the following is an advantage of using C#?', 'Multiple Choice', 'Automatic memory management', 'Not compatible with .NET framework', 'No support for object-oriented programming', 'Only used for desktop applications', 'A'),
+(2, 'Which type of database management system stores data in tables with structured relationships?', 'Multiple Choice', 'NoSQL DBMS', 'Distributed DBMS', 'Relational DBMS', 'Cloud DBMS', 'C'),
+(2, 'Which network type is best suited for connecting multiple branches of a company across a city?', 'Multiple Choice', 'LAN', 'PAN', 'MAN', 'WAN', 'C');
 
-INSERT INTO questions (quiz_id, category, question_text, question_type, option_a, option_b, option_c, option_d, correct_answer, category_id) VALUES
-(27,  'Python', 'Which of the following is a key advantage of Python?', 'Multiple Choice', 'Complex syntax', 'Beginner-friendly and powerful', 'Limited library support', 'Only used for web development', 'B',4),
-(27,  'PHP', 'Which language is commonly used for server-side scripting in web development?', 'Multiple Choice', 'Python', 'PHP', 'C#', 'JavaScript', 'B',4),
-(27,  'C#', 'Which of the following is an advantage of using C#?', 'Multiple Choice', 'Automatic memory management', 'Not compatible with .NET framework', 'No support for object-oriented programming', 'Only used for desktop applications', 'A',4),
-(27,  'DBMS', 'Which type of database management system stores data in tables with structured relationships?', 'Multiple Choice', 'NoSQL DBMS', 'Distributed DBMS', 'Relational DBMS', 'Cloud DBMS', 'C',4),
-(27,  'Networking', 'Which network type is best suited for connecting multiple branches of a company across a city?', 'Multiple Choice', 'LAN', 'PAN', 'MAN', 'WAN', 'C',4);
+INSERT INTO questions (quiz_id, question_text, question_type, correct_answer) VALUES
+(2, 'Python is only used for web development and cannot be applied in artificial intelligence.', 'True/False', 'F'),
+(2, 'PHP is widely used for building content management systems like WordPress.', 'True/False', 'T'),
+(2, 'C# is mainly used for mobile app development and has no role in game development.', 'True/False', 'F');
 
-INSERT INTO questions (quiz_id, category, question_text, question_type, correct_answer,category_id) VALUES
-(26,  'Python', 'Python is only used for web development and cannot be applied in artificial intelligence.', 'True/False', 'F',4),
-(26,  'PHP', 'PHP is widely used for building content management systems like WordPress.', 'True/False', 'T',4),
-(26,  'C#', 'C# is mainly used for mobile app development and has no role in game development.', 'True/False', 'F',4);
-
-INSERT INTO questions (quiz_id, category, question_text, question_type, option_a, option_b, option_c, option_d, correct_answer,category_id) VALUES
-(26, 'Python', 'Which of the following industries benefit from Python?', 'Multiple Choice', 'Web development', 'Data science', 'Cybersecurity', 'All of the above', 'D',4),
-(26, 'PHP', 'Which of the following is a major use of PHP?', 'Multiple Choice', 'Machine learning', 'Web development', 'Operating system design', 'Game development', 'B',4),
-(26, 'Networking', 'Which network topology connects all devices in a single continuous loop?', 'Multiple Choice', 'Star', 'Mesh', 'Bus', 'Ring', 'D',4),
-(26, 'DBMS', 'Which type of database is best suited for handling structured data with relationships?', 'Multiple Choice', 'NoSQL', 'Relational DBMS', 'Key-Value Store', 'Document-based DBMS', 'B',4);
-
-
+INSERT INTO questions (quiz_id, question_text, question_type, option_a, option_b, option_c, option_d, correct_answer) VALUES
+(2, 'Which of the following industries benefit from Python?', 'Multiple Choice', 'Web development', 'Data science', 'Cybersecurity', 'All of the above', 'D'),
+(2, 'Which of the following is a major use of PHP?', 'Multiple Choice', 'Machine learning', 'Web development', 'Operating system design', 'Game development', 'B'),
+(2, 'Which network topology connects all devices in a single continuous loop?', 'Multiple Choice', 'Star', 'Mesh', 'Bus', 'Ring', 'D'),
+(2, 'Which type of database is best suited for handling structured data with relationships?', 'Multiple Choice', 'NoSQL', 'Relational DBMS', 'Key-Value Store', 'Document-based DBMS', 'B');
 CREATE TABLE user_scores (
     score_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
