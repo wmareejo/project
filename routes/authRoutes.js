@@ -22,7 +22,6 @@ router.post("/register", async (req, res) => {
     }); 
 }); 
  
-module.exports = router;  
 // عملية قراءة لاسترجاع بيانات المستخدم من قاعدة البيانات 
 router.post("/login", async (req, res) => { 
     const { email, password } = req.body; 
@@ -86,3 +85,4 @@ router.delete("/user/:id", (req, res) => {
         res.status(200).json({ message: "Account deleted successfully!" }); 
     }); 
 }); 
+module.exports = router;

@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
+
 // عملية انشاء لحفظ جميع نتائج المستخدمين الجدد 
 router.post("/quizzes", (req, res) => { 
     const { userId, quizLevel, score } = req.body; 
@@ -24,3 +28,4 @@ router.delete("/quizzes/:userId", (req, res) => {
         res.status(200).json({ message: "Scores reset!" }); 
     }); 
 });
+module.exports = router;

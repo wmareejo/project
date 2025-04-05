@@ -1,3 +1,6 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
 // عملية قراءة للبحث عن موضوع
 router.get("/topics/search/:keyword", (req, res) => { 
     const sql = "SELECT * FROM topics WHERE title LIKE ?"; 
@@ -6,3 +9,4 @@ router.get("/topics/search/:keyword", (req, res) => {
         res.status(200).json(results); 
     }); 
 }); 
+module.exports = router;
