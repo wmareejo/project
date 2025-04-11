@@ -7,16 +7,16 @@ const router = express.Router();
  
 // تسجيل مستخدم جديد
 router.post("/register", async (req, res) => { 
-    const { name, email, password } = req.body; 
+    const { username, email, password } = req.body; 
  
-    if (!name || !email || !password) { 
+    if (!username || !email || !password) { 
         return res.status(400).json({ message: "All fields are required." }); 
     } 
  
     const hashedPassword = await bcrypt.hash(password, 10);  
  
-    const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)"; 
-    db.query(sql, [name, email, hashedPassword], (err, result) => { 
+    const sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"; 
+    db.query(sql, [username, email, hashedPassword], (err, result) => { 
         if (err) return res.status(500).json({ error: err.message }); 
         res.status(201).json({ message: "User registered successfully!" }); 
     }); 
@@ -45,14 +45,14 @@ router.post("/login", async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials." }); 
         } 
  
-        res.status(200).json({ message: "Login successful!", user: { id: user.id, name: 
+        res.status(200).json({ message: "Login successful!", user: { id: user.id, username: 
 user.name, email: user.email } }); 
     }); 
 }); 
  
 // الحصول على ملف تعريف المستخدم 
 router.get("/user/:id", (req, res) => { 
-    const sql = "SELECT id, name, email FROM users WHERE id = ?"; 
+    const sql = "SELECT id, username, email FROM users WHERE id = ?"; 
     db.query(sql, [req.params.id], (err, results) => { 
         if (err) return res.status(500).json({ error: err.message }); 
         if (results.length === 0) return res.status(404).json({ message: "User not found." }); 
@@ -62,14 +62,14 @@ router.get("/user/:id", (req, res) => {
 });
 // عملية لتحديث بيانات المستخدم 
 router.put("/user/:id", async (req, res) => { 
-    const { name, email, password } = req.body; 
-    let sql = "UPDATE users SET name = ?, email = ? WHERE id = ?"; 
-    let params = [name, email, req.params.id]; 
+    const { username, email, password } = req.body; 
+    let sql = "UPDATE users SET username = ?, email = ? WHERE id = ?"; 
+    let params = [username, email, req.params.id]; 
  
     if (password) { 
         const hashedPassword = await bcrypt.hash(password, 10); 
         sql = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?"; 
-        params = [name, email, hashedPassword, req.params.id]; 
+        params = [username, email, hashedPassword, req.params.id]; 
     } 
  
     db.query(sql, params, (err, result) => { 
