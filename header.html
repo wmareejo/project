@@ -127,53 +127,76 @@
     .user-text:hover {
       color: #778DA9;
     }
-
     /* SIDEBAR */
     .sidebar {
-      width: 230px;
-      background-color: #415A77;
-      position: fixed;
-      top: 75px;
-      left: 0;
-      height: 100%;
-      padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-      transition: width 0.3s ease;
-    }
+  width: 230px;
+  background-color: #415A77;
+  position: fixed;
+  top: 75px;
+  left: 0;
+  height: 100vh;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s ease;
+  overflow-y: auto; /* Allow scrolling in the sidebar */
+}
 
-    .sidebar:hover {
-      width: 250px;
-    }
+.sidebar:hover {
+  width: 250px;
+}
 
-    .sidebar h3 {
-      padding-left: 20px;
-      font-family: 'Libre Baskerville', serif;
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-      color: #E0E1DD;
-      letter-spacing: 1px;
-    }
+.sidebar h3 {
+  padding-left: 20px;
+  font-family: 'Libre Baskerville', serif;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #E0E1DD;
+  letter-spacing: 1px;
+}
 
-    .category {
-      padding: 14px 25px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.05rem;
-      border-radius: 4px;
-      margin-bottom: 5px;
-      color: #E0E1DD;
-      font-weight: 500;
-    }
+.category {
+  padding: 14px 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.05rem;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  color: #E0E1DD;
+  font-weight: 500;
+}
 
-    .category:hover {
-      background-color: #778DA9;
-      transform: translateX(5px);
-      color: #0D1B2A;
-    }
+.category:hover {
+  background-color: #778DA9;
+  transform: translateX(5px);
+  color: #0D1B2A;
+}
 
-    .category:active {
-      background-color: #5C758C;
-    }
+.category:active {
+  background-color: #5C758C;
+}
+
+/* Topic list */
+.topic-list {
+  display: none;
+  margin-left: 20px;
+}
+
+.topic {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #778DA9;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.topic:hover {
+  background-color: #5C758C;
+}
+
+.topic-list .topic {
+  color: #E0E1DD;
+}
 
     /* MODAL STYLES */
     .modal {
@@ -292,13 +315,114 @@
 
 <div class="sidebar">
   <h3>Categories</h3>
-  <div class="category">Programming Languages / Coding</div>
-  <div class="category">Networks</div>
-  <div class="category">Database Management Systems (DBMS)</div>
-  <div class="category">Quizzes</div>
-  <div class="category">Work By</div>
+  <div class="category" onclick="toggleTopics('programming')">Programming Languages / Coding</div>
+  <div class="topic-list" id="programming">
+    <div class="topic">Intro to programming</div>
+    <div class="topic">What is WORA? Learn Java!</div>
+    <div class="topic">Why is Python so popular?</div>
+    <div class="topic">Learn PHP</div>
+    <div class="topic">What is C#</div>
+  </div>
+
+  <div class="category" onclick="toggleTopics('networks')">Networks</div>
+  <div class="topic-list" id="networks">
+    <div class="topic">Intro to networks</div>
+    <div class="topic">What are the types of networks?</div>
+    <div class="topic">Learn topologies in a simple way</div>
+    <div class="topic">OSI & TCP/IP</div>
+    <div class="topic">Internet protocols and their importance</div>
+  </div>
+
+  <div class="category" onclick="toggleTopics('dbms')">Database Management Systems (DBMS)</div>
+  <div class="topic-list" id="dbms">
+    <div class="topic">Intro to DBMS, What is a database?</div>
+    <div class="topic">What is SDLC?</div>
+    <div class="topic">The difference between SQL and NoSQL</div>
+    <div class="topic">Simple guide to the ER model</div>
+  </div>
+
+  <div class="category" onclick="toggleTopics('quizzes')">Quizzes</div>
+  <div class="topic-list" id="quizzes">
+    <div class="topic">Level 1 Quiz</div>
+    <div class="topic">Level 2 Quiz</div>
+  </div>
 </div>
 
+<script>
+  function toggleTopics(category) {
+    const topicList = document.getElementById(category);
+    const allTopicLists = document.querySelectorAll('.topic-list');
+
+    // Toggle visibility of the selected topic list
+    if (topicList.style.display === 'block') {
+      topicList.style.display = 'none';
+    } else {
+      allTopicLists.forEach(list => list.style.display = 'none'); // Hide all
+      topicList.style.display = 'block'; // Show clicked category
+    }
+  }
+</script>
+
+
+
+<main style="margin-left: 230px; padding: 40px 30px; font-family: 'Roboto', sans-serif;">
+  <!-- Hero Section -->
+  <section style="background-color: #415A77; padding: 30px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; margin-top: -20px;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #E0E1DD; margin-top: 0; transition: color 0.3s ease-in-out;">
+      Welcome to <span style="color: #778DA9;">CodeQuest</span> — Your Learning Adventure Starts Here!
+    </h1>
+    <p style="font-size: 1.1rem; line-height: 1.6; color: #E0E1DD; max-width: 100%; margin: 0 auto;">
+      Explore the world of <strong>programming</strong>, <strong>networks</strong>, and <strong>databases</strong> with easy-to-understand content, interactive quizzes, and beginner-friendly topics.
+      Whether you're new to coding or want to sharpen your skills, <strong style="color: #778DA9;">CodeQuest</strong> has something for you.
+    </p>
+  </section>
+
+  <!-- New Section for Cards -->
+  <section style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; justify-items: center;">
+    <!-- Card 1 -->
+    <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Programming</h2>
+      <p style="font-size: 1rem; line-height: 1.6;">Dive into the world of coding languages and start building your skills.</p>
+      <a href="/programming" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+    </div>
+
+    <!-- Card 2 -->
+    <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Networks</h2>
+      <p style="font-size: 1rem; line-height: 1.6;">Explore different network types, topologies, and protocols for better understanding.</p>
+      <a href="/networks" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+    </div>
+
+    <!-- Card 3 -->
+    <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Databases</h2>
+      <p style="font-size: 1rem; line-height: 1.6;">Understand how databases work and explore different database models and management systems.</p>
+      <a href="/databases" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+    </div>
+  </section>
+
+  <script>
+    // Hover effects for cards to make them interactive
+    const cards = document.querySelectorAll('section > div');
+    cards.forEach(card => {
+      card.addEventListener('mouseover', () => {
+        card.style.transform = 'scale(1.05)';
+      });
+      card.addEventListener('mouseout', () => {
+        card.style.transform = 'scale(1)';
+      });
+    });
+
+    // Hover effects for hero section to make it interactive like cards
+    const heroSection = document.querySelector('main > section');
+    heroSection.addEventListener('mouseover', () => {
+      heroSection.style.transform = 'scale(1.05)';
+    });
+    heroSection.addEventListener('mouseout', () => {
+      heroSection.style.transform = 'scale(1)';
+    });
+  </script>
+</main>
 <!-- Modal -->
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -368,6 +492,5 @@
     console.log("Searching for:", keyword);
   }
 </script>
-
 </body>
 </html>
