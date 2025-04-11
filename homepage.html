@@ -1,0 +1,54 @@
+<main style="margin-left: 230px; padding: 40px 30px; font-family: 'Roboto', sans-serif;">
+    <!-- Hero Section / الرسالة الترحيبية للموقع -->
+    <section style="background-color: #415A77; padding: 30px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; margin-top: -20px;">
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #E0E1DD; margin-top: 0; transition: color 0.3s ease-in-out;">
+        Welcome to <span style="color: #778DA9;">CodeQuest</span> — Your Learning Adventure Starts Here!
+      </h1>
+      <p style="font-size: 1.1rem; line-height: 1.6; color: #E0E1DD; max-width: 100%; margin: 0 auto;">
+        Explore the world of <strong>programming</strong>, <strong>networks</strong>, and <strong>databases</strong> with easy-to-understand content, interactive quizzes, and beginner-friendly topics.
+        Whether you're new to coding or want to sharpen your skills, <strong style="color: #778DA9;">CodeQuest</strong> has something for you.
+      </p>
+    </section>
+    <!-- New Section / قسم لعرض بطائق محتويات الموقع -->
+    <section style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; justify-items: center;">
+      <!-- البطاقة الأولى -->
+      <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Programming</h2>
+        <p style="font-size: 1rem; line-height: 1.6;">Dive into the world of coding languages and start building your skills.</p>
+        <a href="/programming" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+      </div>
+  
+      <!-- البطاقة الثانية -->
+      <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Networks</h2>
+        <p style="font-size: 1rem; line-height: 1.6;">Explore different network types, topologies, and protocols for better understanding.</p>
+        <a href="/networks" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+      </div>
+  
+      <!-- البطاقة الثالثة -->
+      <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Databases</h2>
+        <p style="font-size: 1rem; line-height: 1.6;">Understand how databases work and explore different database models and management systems.</p>
+        <a href="/databases" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
+      </div>
+    </section>
+  
+    <script>
+      const cards = document.querySelectorAll('section > div');
+      cards.forEach(card => {
+        card.addEventListener('mouseover', () => {
+          card.style.transform = 'scale(1.05)';
+        });
+        card.addEventListener('mouseout', () => {
+          card.style.transform = 'scale(1)';
+        });
+      });
+        const heroSection = document.querySelector('main > section');
+      heroSection.addEventListener('mouseover', () => {
+        heroSection.style.transform = 'scale(1.05)';
+      });
+      heroSection.addEventListener('mouseout', () => {
+        heroSection.style.transform = 'scale(1)';
+      });
+    </script>
+  </main>
