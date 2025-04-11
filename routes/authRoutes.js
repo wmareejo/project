@@ -68,7 +68,7 @@ router.put("/user/:id", async (req, res) => {
  
     if (password) { 
         const hashedPassword = await bcrypt.hash(password, 10); 
-        sql = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?"; 
+        sql = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?"; 
         params = [username, email, hashedPassword, req.params.id]; 
     } 
  
