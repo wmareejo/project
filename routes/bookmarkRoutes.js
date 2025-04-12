@@ -17,7 +17,7 @@ router.post("/bookmarks", (req, res) => {
 router.get("/bookmarks/:userId", (req, res) => {
     const sql = `
         SELECT * FROM topics 
-        INNER JOIN bookmarks ON topics.id = bookmarks.topic_id 
+        INNER JOIN bookmarks ON topics.topic_id = bookmarks.topic_id 
         WHERE bookmarks.user_id = ?
     `;
     
