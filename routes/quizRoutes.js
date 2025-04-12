@@ -22,7 +22,7 @@ router.get("/quizzes/:userId", (req, res) => {
 }); 
 // عملية لحذف نتائج المستخدمين
 router.delete("/quizzes/:userId", (req, res) => { 
-    const sql = "DELETE FROM quiz_scores WHERE user_id = ?"; 
+    const sql = "DELETE FROM user_scores WHERE user_id = ?"; 
     db.query(sql, [req.params.userId], (err, result) => { 
         if (err) return res.status(500).json({ error: err.message }); 
         res.status(200).json({ message: "Scores reset!" }); 
