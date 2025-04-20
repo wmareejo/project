@@ -129,7 +129,7 @@
     }
     /* SIDEBAR */
     .sidebar {
-  width: 230px;
+  width: 200px;
   background-color: #415A77;
   position: fixed;
   top: 75px;
@@ -179,8 +179,12 @@
 .topic-list {
   display: none;
   margin-left: 20px;
+  width: calc(100% - 40px); 
+  max-height: 400px;
+  overflow-y: auto;
 }
 
+/* Individual topic styling */
 .topic {
   margin: 10px 0;
   padding: 8px;
@@ -188,6 +192,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
 }
 
 .topic:hover {
@@ -198,6 +203,40 @@
   color: #E0E1DD;
 }
 
+
+
+/* FOOTER */
+footer {
+  background-color: #0D1B2A;
+  color: #E0E1DD;
+  padding: 20px 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 4;
+  clear: both;
+  position: relative;
+  z-index: 10;
+}
+
+    footer a {
+      color: #778DA9;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer .footer-links {
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+
+    footer .footer-links span {
+      margin: 0 10px;
+    }
+    
     /* MODAL STYLES */
     .modal {
       display: none;
@@ -315,36 +354,37 @@
 
 <div class="sidebar">
   <h3>Categories</h3>
+  
   <div class="category" onclick="toggleTopics('programming')">Programming Languages / Coding</div>
   <div class="topic-list" id="programming">
-    <div class="topic">Intro to programming</div>
-    <div class="topic">What is WORA? Learn Java!</div>
-    <div class="topic">Why is Python so popular?</div>
-    <div class="topic">Learn PHP</div>
-    <div class="topic">What is C#</div>
+    <a href="topic.html?id=1"><div class="topic">Intro to programming</div></a>
+    <a href="topic.html?id=2"><div class="topic">What is WORA? Learn Java!</div></a>
+    <a href="topic.html?id=3"><div class="topic">Why is Python so popular?</div></a>
+    <a href="topic.html?id=4"><div class="topic">Learn PHP</div></a>
+    <a href="topic.html?id=5"><div class="topic">What is C#</div></a>
   </div>
 
   <div class="category" onclick="toggleTopics('networks')">Networks</div>
   <div class="topic-list" id="networks">
-    <div class="topic">Intro to networks</div>
-    <div class="topic">What are the types of networks?</div>
-    <div class="topic">Learn topologies in a simple way</div>
-    <div class="topic">OSI & TCP/IP</div>
-    <div class="topic">Internet protocols and their importance</div>
+    <a href="topic.html?id=6"><div class="topic">Intro to networks</div></a>
+    <a href="topic.html?id=7"><div class="topic">What are the types of networks?</div></a>
+    <a href="topic.html?id=8"><div class="topic">Learn topologies in a simple way</div></a>
+    <a href="topic.html?id=9"><div class="topic">OSI & TCP/IP</div></a>
+    <a href="topic.html?id=10"><div class="topic">Internet protocols and their importance</div></a>
   </div>
 
   <div class="category" onclick="toggleTopics('dbms')">Database Management Systems (DBMS)</div>
   <div class="topic-list" id="dbms">
-    <div class="topic">Intro to DBMS, What is a database?</div>
-    <div class="topic">What is SDLC?</div>
-    <div class="topic">The difference between SQL and NoSQL</div>
-    <div class="topic">Simple guide to the ER model</div>
+    <a href="topic.html?id=11"><div class="topic">Intro to DBMS, What is a database?</div></a>
+    <a href="topic.html?id=12"><div class="topic">What is SDLC?</div></a>
+    <a href="topic.html?id=13"><div class="topic">The difference between SQL and NoSQL</div></a>
+    <a href="topic.html?id=14"><div class="topic">Simple guide to the ER model</div></a>
   </div>
 
   <div class="category" onclick="toggleTopics('quizzes')">Quizzes</div>
   <div class="topic-list" id="quizzes">
-    <div class="topic">Level 1 Quiz</div>
-    <div class="topic">Level 2 Quiz</div>
+    <a href="topic.html?id=15"><div class="topic">Quiz Level 1</div></a>
+    <a href="topic.html?id=16"><div class="topic">Quiz Level 2</div></a>
   </div>
 </div>
 
@@ -362,6 +402,7 @@
     }
   }
 </script>
+
 
 
 
@@ -448,6 +489,15 @@
   </div>
 </div>
 </div>
+<footer>
+  <div>&copy; 2025 CodeQuest. All Rights Reserved.</div>
+  <div class="footer-links">
+    <span><a href="/privacy-policy.html">Privacy Policy</a></span>
+    <span><a href="/terms-of-use.html">Terms of Use</a></span>
+    <span><a href="/about-us.html">About Us</a></span>
+    <span><a href="/contact-us.html">Contact Us</a></span>
+  </div>
+</footer>
 
 <script>
   function openModal() {
@@ -492,5 +542,6 @@
     console.log("Searching for:", keyword);
   }
 </script>
+<script src="topic.html"></script>
 </body>
 </html>
