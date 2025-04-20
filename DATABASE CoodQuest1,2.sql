@@ -454,3 +454,12 @@ CREATE TABLE bookmarks (
     FOREIGN KEY (topic_id) REFERENCES topics(topic_id) ON DELETE CASCADE,
     FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id) ON DELETE CASCADE
 );
+CREATE TABLE Admin (
+    Admin_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    password VARCHAR(50),
+    mobile VARCHAR(50),
+    email VARCHAR(50)
+);
+INSERT INTO Admin (name, password, mobile, email)
+VALUES ('CodeQuest', 'admin1010', '0501710588', '445813489@kku.edu.sa');
