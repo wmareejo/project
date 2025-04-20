@@ -79,6 +79,17 @@ function registerUser(userData) {
       .then(data => console.log("All Topics:", data))
       .catch(err => console.error("Fetch Topics Error:", err));
   }
+function fetchTopicById(id) {
+  fetch(`http://localhost:9000/api/lists/topics/${id}`)
+    .then(res => res.json())
+    .then(topic => {
+      console.log("Single Topic:", topic);
+      // You can now display the topic in your HTML!
+      document.getElementById("topic-title").textContent = topic.title;
+      document.getElementById("topic-content").textContent = topic.content;
+    })
+    .catch(err => console.error("Fetch Topic by ID Error:", err));
+}
   
   // إضافة علامة مرجعية
   function addBookmark(bookmarkData) {
