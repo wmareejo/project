@@ -464,31 +464,6 @@ footer {
     });
   </script>
 </main>
-<!-- Modal -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <div class="modal-form" id="modal-form">
-      <h2 id="modal-title">Sign Up</h2>
-      <input type="text" placeholder="Username" id="username" />
-      <input type="email" placeholder="Email" id="email" />
-      <input type="password" placeholder="Password" id="signup-password" />
-      <div class="password-helper">Make sure your password contains both uppercase and lowercase letters.</div>
-      <button onclick="signup()">Sign Up</button>
-      <p id="switch-to-login" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToLogin()">Already have an account? Login</p>
-    </div>
-
-  <!-- Login Form (Hidden by default) -->
-  <div class="modal-form" id="login-form" style="display: none;">
-    <h2 id="modal-title">Login</h2>
-    <!-- Toggle between email and username input -->
-    <input type="text" placeholder="Username or Email" id="login-identifier" />
-    <input type="password" placeholder="Password" id="login-password" />
-    <button onclick="login()">Login</button>
-    <p id="switch-to-signup" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToSignUp()">Don't have an account? Sign Up</p>
-  </div>
-</div>
-</div>
 <footer>
   <div>&copy; 2025 CodeQuest. All Rights Reserved.</div>
   <div class="footer-links">
@@ -498,50 +473,117 @@ footer {
     <span><a href="/contact-us.html">Contact Us</a></span>
   </div>
 </footer>
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
 
+    <!-- Sign Up Form -->
+    <div class="modal-form" id="signup-form">
+      <h2 id="modal-title">Sign Up</h2>
+      <input type="text" placeholder="Username" id="signup-username" />
+      <input type="email" placeholder="Email" id="signup-email" />
+      <input type="password" placeholder="Password" id="signup-password" />
+      <div class="password-helper">Make sure your password contains both uppercase and lowercase letters.</div>
+      <button onclick="signup()">Sign Up</button>
+      <p id="switch-to-login" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToLogin()">Already have an account? Login</p>
+    </div>
+
+    <!-- Login Form -->
+    <div class="modal-form" id="login-form" style="display: none;">
+      <h2 id="modal-title">Login</h2>
+      <input type="text" placeholder="Username or Email" id="login-identifier" />
+      <input type="password" placeholder="Password" id="login-password" />
+      <button onclick="login()">Login</button>
+      <p id="switch-to-signup" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToSignUp()">Don't have an account? Sign Up</p>
+    </div>
+  </div>
+</div>
+<button onclick="openModal()">Sign In / Sign Up</button>
 <script>
-  function openModal() {
-    document.getElementById("modal").style.display = "flex";
+ function openModal() {
+  const modal = document.getElementById("modal");
+  modal.style.display = "flex"; // Ensure the modal is displayed as flex
+
+  // Reset transform to center it again
+  modal.style.transform = 'none';
+}
+
+
+  function registerUser(userData) {
+    fetch("http://localhost:9000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Register Response:", data);
+        alert("User registered successfully!");
+      })
+      .catch(err => {
+        console.error("Register Error:", err);
+        alert("Registration failed.");
+      });
+  }
+
+  function signup() {
+    const username = document.getElementById("signup-username").value;
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
+
+    const userData = {
+      username,
+      email,
+      password
+    };
+
+    registerUser(userData);
+  }
+
+  function login() {
+    const identifier = document.getElementById("login-identifier").value;
+    const password = document.getElementById("login-password").value;
+
+    fetch("http://localhost:9000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ identifier, password })
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Login Response:", data);
+        if (data.success) {
+          alert("Login successful!");
+          // Save token or redirect if needed
+        } else {
+          alert("Login failed: " + data.message);
+        }
+      })
+      .catch(err => {
+        console.error("Login Error:", err);
+        alert("Login failed.");
+      });
+  }
+
+  function switchToLogin() {
+    document.getElementById("signup-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+  }
+
+  function switchToSignUp() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("signup-form").style.display = "block";
   }
 
   function closeModal() {
     document.getElementById("modal").style.display = "none";
   }
-
-  function switchToLogin() {
-    document.getElementById("modal-title").innerText = "Login";
-    document.getElementById("modal-form").style.display = "none";
-    document.getElementById("login-form").style.display = "block";
-    document.getElementById("switch-to-login").style.display = "none";
-    document.getElementById("switch-to-signup").style.display = "block";
-  }
-
-  function switchToSignUp() {
-    document.getElementById("modal-title").innerText = "Sign Up";
-    document.getElementById("modal-form").style.display = "block";
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("switch-to-login").style.display = "block";
-    document.getElementById("switch-to-signup").style.display = "none";
-  }
-
-  function signup() {
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("signup-password").value;
-    alert(`Signup attempt for ${username} (${email})`);
-  }
-
-  function login() {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-    alert(`Login attempt for ${email}`);
-  }
-
-  function searchTopic(event) {
-    const keyword = event.target.value.toLowerCase();
-    console.log("Searching for:", keyword);
-  }
 </script>
-<script src="topic.html"></script>
 </body>
+<script src="fetchtopics.js"></script> 
 </html>
