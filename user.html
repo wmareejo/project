@@ -20,17 +20,68 @@
       padding: 0;
     }
 
+    /* HEADER */
     header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: #0D1B2A;
-      padding: 20px;
-      text-align: center;
+      padding: 15px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    header h1 {
+    header:hover {
+      background-color: #0f253a;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+      color: #778DA9;
+    }
+
+    .logo {
+      width: 80px;
+      height: auto;
+    }
+
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.2;
+    }
+
+    .site-name {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
       margin: 0;
     }
+
+    .slogan {
+      font-size: 0.85rem;
+      color: #778DA9;
+      margin: 2px 0 0 0;
+    }
+
+    h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin: 0;
+}
 
     .container {
       max-width: 1000px;
@@ -147,10 +198,15 @@ footer {
 </head>
 <body>
 
-  <header>
-    <h1>Welcome to CodeQuest, <span id="username">User</span>!</h1>
-  </header>
-
+    <header>
+        <div class="logo-container">
+          <img src="codequest-logo.png" alt="CodeQuest Logo" class="logo" />
+          <div class="text-content">
+            <div class="site-name">CodeQuest</div>
+            <div class="slogan">Explore. Learn. Conquer.</div>
+        </div>
+        </div>
+        </header>
   <div class="container">
 
     <!-- Profile Section -->
