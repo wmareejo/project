@@ -401,6 +401,16 @@ footer {
       topicList.style.display = 'block'; // Show clicked category
     }
   }
+  function fetchTopicById(id) {
+    fetch(`http://localhost:9000/api/lists/topics/${id}`)
+      .then(res => res.json())
+      .then(topic => {
+        console.log("Single Topic:", topic);
+        document.getElementById("topic-title").textContent = topic.title;
+        document.getElementById("topic-content").textContent = topic.content;
+      })
+      .catch(err => console.error("Fetch Topic by ID Error:", err));
+  }
 </script>
 
 
