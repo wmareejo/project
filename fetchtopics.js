@@ -1,5 +1,6 @@
 // إنشاء حساب مستخدم جديد (Register)
 function registerUser(userData) {
+  console.log("User Data:", userData);  // Log the userData before sending the request
   fetch("http://localhost:9000/api/auth/register", {
     method: "POST",
     headers: {
@@ -7,16 +8,15 @@ function registerUser(userData) {
     },
     body: JSON.stringify(userData)
   })
-    .then(res => {
-      if (!res.ok) {
-        return res.json().then(data => {
-          throw new Error(data.message || 'Failed to register');
-        });
-      }
-      return res.json();
+    .then(res => res.json())
+    .then(data => {
+      console.log("Register Response:", data);
+      alert("User registered successfully!");
     })
-    .then(data => console.log("Register Response:", data))
-    .catch(err => console.error("Register Error:", err));
+    .catch(err => {
+      console.error("Register Error:", err);
+      alert("Registration failed.");
+    });
 }
 // تسجيل دخول (Login)
 function loginUser(credentials) {

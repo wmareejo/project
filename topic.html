@@ -132,6 +132,50 @@ footer {
     footer .footer-links span {
       margin: 0 10px;
     }
+    #topic-details {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #415A77;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#topic-details:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+}
+
+#topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #E0E1DD;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #E0E1DD;
+    padding-bottom: 10px;
+}
+
+#topic-content {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #F0F1F5;
+    white-space: pre-wrap; /* Preserves formatting from backend */
+}
+#topic-details {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
     
     </style>
 </head>
@@ -157,49 +201,48 @@ footer {
 </header>
 
 <main>
-    <!-- This is where the topic details will be displayed -->
-    <div id="topic-details">
-        <h2 id="topic-title">Loading...</h2>
-        <p id="topic-content">Please wait while we fetch the content...</p>
-    </div>
-</main>
-
+    <section id="topic-details" class="topic-container">
+      <h1 id="topic-title" class="topic-title">Loading...</h1>
+      <article id="topic-content" class="topic-body">
+        Please wait while we fetch the content...
+      </article>
+    </section>
+  </main>
+  
 <footer>
     <p>&copy; 2025 CodeQuest. All rights reserved.</p>
 </footer>
 
 <script>
-    // Function to fetch the topic by ID
-    function fetchTopicById(id) {
-        // Show loading message while the fetch is happening
-        document.getElementById("topic-title").textContent = "Loading...";
-        document.getElementById("topic-content").textContent = "Please wait while we fetch the content...";
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const topicId = urlParams.get('id'); 
 
-        fetch(`http://localhost:9000/api/lists/topics/${id}`)
-            .then(res => res.json())
-            .then(topic => {
-                console.log("Single Topic:", topic);
-                // Once the topic is fetched, display the content
-                document.getElementById("topic-title").textContent = topic.title;
-                document.getElementById("topic-content").textContent = topic.content;
-            })
-            .catch(err => {
-                console.error("Fetch Topic by ID Error:", err);
-                document.getElementById("topic-title").textContent = "Error Loading Topic";
-                document.getElementById("topic-content").textContent = "There was an issue fetching the content.";
-            });
-    }
+        if (topicId) {
+            fetchTopicById(topicId);
+        } else {
+            console.error('Topic ID is missing in the URL.');
+        }
 
-    // Get the topic ID from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const topicId = urlParams.get('id'); // Assuming the ID is in the URL
+        function fetchTopicById(id) {
+            document.getElementById("topic-title").textContent = "Loading...";
+            document.getElementById("topic-content").textContent = "Please wait while we fetch the content...";
 
-    // If topicId is available, call the fetch function
-    if (topicId) {
-        fetchTopicById(topicId);
-    } else {
-        console.error('Topic ID is missing in the URL.');
-    }
+            fetch(`http://localhost:9000/api/lists/topics/${id}`)
+                .then(res => res.json())
+                .then(topic => {
+    console.log("Fetched topic:", topic); // helpful for debugging
+    document.getElementById("topic-title").textContent = topic.topic_name;
+    document.getElementById("topic-content").textContent = topic.content;
+})
+
+                .catch(err => {
+                    console.error("Error fetching topic:", err);
+                    document.getElementById("topic-title").textContent = "Error Loading Topic";
+                    document.getElementById("topic-content").textContent = "There was an issue fetching the content.";
+                });
+        }
+    });
 </script>
 
 <script src="fetchtopics.js"></script>

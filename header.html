@@ -355,6 +355,7 @@ footer {
 <div class="sidebar">
   <h3>Categories</h3>
   
+  <!-- Programming Languages / Coding Category -->
   <div class="category" onclick="toggleTopics('programming')">Programming Languages / Coding</div>
   <div class="topic-list" id="programming">
     <a href="topic.html?id=1"><div class="topic">Intro to programming</div></a>
@@ -364,29 +365,35 @@ footer {
     <a href="topic.html?id=5"><div class="topic">What is C#</div></a>
   </div>
 
-  <div class="category" onclick="toggleTopics('networks')">Networks</div>
-  <div class="topic-list" id="networks">
-    <a href="topic.html?id=6"><div class="topic">Intro to networks</div></a>
-    <a href="topic.html?id=7"><div class="topic">What are the types of networks?</div></a>
-    <a href="topic.html?id=8"><div class="topic">Learn topologies in a simple way</div></a>
-    <a href="topic.html?id=9"><div class="topic">OSI & TCP/IP</div></a>
-    <a href="topic.html?id=10"><div class="topic">Internet protocols and their importance</div></a>
-  </div>
-
+<!-- DBMS Category -->
   <div class="category" onclick="toggleTopics('dbms')">Database Management Systems (DBMS)</div>
   <div class="topic-list" id="dbms">
-    <a href="topic.html?id=11"><div class="topic">Intro to DBMS, What is a database?</div></a>
-    <a href="topic.html?id=12"><div class="topic">What is SDLC?</div></a>
-    <a href="topic.html?id=13"><div class="topic">The difference between SQL and NoSQL</div></a>
-    <a href="topic.html?id=14"><div class="topic">Simple guide to the ER model</div></a>
+    <a href="topic.html?id=6"><div class="topic">Intro to DBMS, What is a database?</div></a>
+    <a href="topic.html?id=7"><div class="topic">What is SDLC?</div></a>
+    <a href="topic.html?id=8"><div class="topic">The difference between SQL and NoSQL</div></a>
+    <a href="topic.html?id=9"><div class="topic">Simple guide to the ER model</div></a>
   </div>
 
+
+
+  <!-- Networks Category -->
+  <div class="category" onclick="toggleTopics('networks')">Networks</div>
+  <div class="topic-list" id="networks">
+    <a href="topic.html?id=10"><div class="topic">Intro to networks</div></a>
+    <a href="topic.html?id=11"><div class="topic">What are the types of networks?</div></a>
+    <a href="topic.html?id=12"><div class="topic">Learn topologies in a simple way</div></a>
+    <a href="topic.html?id=13"><div class="topic">OSI & TCP/IP</div></a>
+    <a href="topic.html?id=14"><div class="topic">Internet protocols and their importance</div></a>
+  </div>
+
+    <!-- Quizzes Category -->
   <div class="category" onclick="toggleTopics('quizzes')">Quizzes</div>
   <div class="topic-list" id="quizzes">
     <a href="topic.html?id=15"><div class="topic">Quiz Level 1</div></a>
     <a href="topic.html?id=16"><div class="topic">Quiz Level 2</div></a>
   </div>
 </div>
+
 
 <script>
   function toggleTopics(category) {
@@ -483,7 +490,7 @@ footer {
     <span><a href="/contact-us.html">Contact Us</a></span>
   </div>
 </footer>
-<!-- Modal -->
+<!-- Modal HTML -->
 <div class="modal" id="modal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -509,16 +516,20 @@ footer {
     </div>
   </div>
 </div>
+
 <button onclick="openModal()">Sign In / Sign Up</button>
 <script>
- function openModal() {
-  const modal = document.getElementById("modal");
-  modal.style.display = "flex"; // Ensure the modal is displayed as flex
+  // Password validation function
+  function validatePassword(password) {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  }
 
-  // Reset transform to center it again
-  modal.style.transform = 'none';
-}
-
+  function openModal() {
+    const modal = document.getElementById("modal");
+    modal.style.display = "flex"; // Ensure the modal is displayed as flex
+    modal.style.transform = 'none'; // Reset transform to center it again
+  }
 
   function registerUser(userData) {
     fetch("http://localhost:9000/api/auth/register", {
@@ -540,45 +551,51 @@ footer {
   }
 
   function signup() {
-    const username = document.getElementById("signup-username").value;
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
+  const username = document.getElementById("signup-username").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
 
-    const userData = {
-      username,
-      email,
-      password
-    };
-
-    registerUser(userData);
+  // Validate password before proceeding
+  if (!validatePassword(password)) {
+      alert("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and symbols.");
+      return; 
   }
 
-  function login() {
-    const identifier = document.getElementById("login-identifier").value;
-    const password = document.getElementById("login-password").value;
+  const userData = { username, email, password };
 
-    fetch("http://localhost:9000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ identifier, password })
+  registerUser(userData);
+  
+  // Close the modal after registration
+  closeModal(); // This will close the modal window.
+    loginUser({ email, password }); // This will automatically log them in with the credentials they just signed up with
+}
+
+function login() {
+  const identifier = document.getElementById("login-identifier").value;
+  const password = document.getElementById("login-password").value;
+
+  fetch("http://localhost:9000/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ identifier, password })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === "Login successful!") {
+        alert("Login successful!");
+        localStorage.setItem("user", JSON.stringify(data.user)); // Save user data to localStorage
+        window.location.href = "user.html"; // Redirect to user profile page
+      } else {
+        alert("Login failed: " + data.message);
+      }
     })
-      .then(res => res.json())
-      .then(data => {
-        console.log("Login Response:", data);
-        if (data.success) {
-          alert("Login successful!");
-          // Save token or redirect if needed
-        } else {
-          alert("Login failed: " + data.message);
-        }
-      })
-      .catch(err => {
-        console.error("Login Error:", err);
-        alert("Login failed.");
-      });
-  }
+    .catch(err => {
+      console.error("Login Error:", err);
+      alert("Login failed.");
+    });
+}
 
   function switchToLogin() {
     document.getElementById("signup-form").style.display = "none";
@@ -593,7 +610,20 @@ footer {
   function closeModal() {
     document.getElementById("modal").style.display = "none";
   }
+
+  // Handle Enter Key Press for form submission
+  document.getElementById("signup-form").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      signup();  // Trigger signup function when Enter is pressed
+    }
+  });
+
+  document.getElementById("login-form").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      login();  // Trigger login function when Enter is pressed
+    }
+  });
 </script>
+<script src="fetchtopics.js"></script>
 </body>
-<script src="fetchtopics.js"></script> 
 </html>
