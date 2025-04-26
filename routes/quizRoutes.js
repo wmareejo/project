@@ -5,7 +5,9 @@ const db = require('../db');
 // عملية انشاء لحفظ جميع نتائج المستخدمين الجدد 
 router.post("/quizzes", (req, res) => { 
     const { userId, quizid, score } = req.body; 
+
     const sql = "INSERT INTO user_scores (user_id, quiz_id, score) VALUES (?, ?, ?)"; 
+    
     db.query(sql, [userId, quizid, score], (err, result) => { 
         if (err) return res.status(500).json({ error: err.message }); 
         res.status(201).json({ message: "Score saved!" }); 
