@@ -12,13 +12,19 @@
         * {
             box-sizing: border-box;
         }
-
         body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #1B263B;
-            color: #E0E1DD;
-        }
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #1B263B;
+    color: #E0E1DD;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}
+
 
         header {
             display: flex;
@@ -110,8 +116,8 @@ footer {
   font-size: 0.9rem;
   margin-top: 4;
   clear: both;
-  position: relative;
-  z-index: 10;
+  position: static;
+  z-index: 1;
 }
 
     footer a {
@@ -209,10 +215,15 @@ footer {
     </section>
   </main>
   
-<footer>
-    <p>&copy; 2025 CodeQuest. All rights reserved.</p>
-</footer>
-
+  <footer>
+    <div>&copy; 2025 CodeQuest. All Rights Reserved.</div>
+    <div class="footer-links">
+      <span><a href="/privacy-policy.html">Privacy Policy</a></span>
+      <span><a href="/terms-of-use.html">Terms of Use</a></span>
+      <span><a href="/about-us.html">About Us</a></span>
+      <span><a href="/contact-us.html">Contact Us</a></span>
+    </div>
+  </footer>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -244,7 +255,6 @@ footer {
         }
     });
 </script>
-
 <script src="fetchtopics.js"></script>
 </body>
 </html>

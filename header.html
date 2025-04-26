@@ -441,18 +441,21 @@ footer {
     <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
       <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Programming</h2>
       <p style="font-size: 1rem; line-height: 1.6;">Dive into the world of coding languages and start building your skills.</p>
+      <a href="/programming" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
     </div>
 
     <!-- Card 2 -->
     <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
       <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Networks</h2>
       <p style="font-size: 1rem; line-height: 1.6;">Explore different network types, topologies, and protocols for better understanding.</p>
+      <a href="/networks" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
     </div>
 
     <!-- Card 3 -->
     <div style="background-color: #778DA9; color: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease-in-out;">
       <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Databases</h2>
       <p style="font-size: 1rem; line-height: 1.6;">Understand how databases work and explore different database models and management systems.</p>
+      <a href="/databases" style="color: #E0E1DD; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px;">Learn More</a>
     </div>
   </section>
 
@@ -506,7 +509,7 @@ footer {
     <!-- Login Form -->
     <div class="modal-form" id="login-form" style="display: none;">
       <h2 id="modal-title">Login</h2>
-      <input type="email" placeholder="Email" id="login-login-email" />
+      <input type="text" placeholder="Username or Email" id="login-identifier" />
       <input type="password" placeholder="Password" id="login-password" />
       <button onclick="login()">Login</button>
       <p id="switch-to-signup" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToSignUp()">Don't have an account? Sign Up</p>
@@ -521,32 +524,52 @@ footer {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     return passwordRegex.test(password);
   }
+
   function openModal() {
     const modal = document.getElementById("modal");
     modal.style.display = "flex"; // Ensure the modal is displayed as flex
     modal.style.transform = 'none'; // Reset transform to center it again
   }
-  function signup() {
-    const username = document.getElementById("signup-username").value;
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
 
-    if (!validatePassword(password)) {
-      alert("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and symbols.");
-      return;
-    }
-
-    if (!username || !email || !password) {
-      alert("Please fill all fields!");
-      return;
-    }
-
-    const userData = { username, email, password };
-    registerUser(userData);  // <-- it will now use the one from fetchtopics.js
-
-    closeModal();
-    loginUser({ email, password });
+  function registerUser(userData) {
+    fetch("http://localhost:9000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Register Response:", data);
+        alert("User registered successfully!");
+      })
+      .catch(err => {
+        console.error("Register Error:", err);
+        alert("Registration failed.");
+      });
   }
+
+  function signup() {
+  const username = document.getElementById("signup-username").value;
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  // Validate password before proceeding
+  if (!validatePassword(password)) {
+      alert("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and symbols.");
+      return; 
+  }
+
+  const userData = { username, email, password };
+
+  registerUser(userData);
+  
+  // Close the modal after registration
+  closeModal(); // This will close the modal window.
+    loginUser({ email, password }); // This will automatically log them in with the credentials they just signed up with
+}
+
 function login() {
   const identifier = document.getElementById("login-identifier").value;
   const password = document.getElementById("login-password").value;
