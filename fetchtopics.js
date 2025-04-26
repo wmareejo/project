@@ -30,13 +30,31 @@ function loginUser(credentials) {
     .then(res => res.json())
     .then(data => {
       console.log("Login Response:", data);
-      if (data.token) {
-        localStorage.setItem("token", data.token);
+      if (data.message === "Login successful!") {
+        alert("Login successful!");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        window.location.href = "user.html"; // <-- REDIRECT after login
+      } else {
+        alert("Login failed: " + data.message);
       }
     })
     .catch(err => console.error("Login Error:", err));
 }
 
+
+// New function to grab inputs:
+function handleLoginClick() {
+  const email = document.getElementById('emailInput').value;
+  const password = document.getElementById('passwordInput').value;
+
+  if (!email || !password) {
+    alert("Please fill in all fields!");
+    return;
+  }
+
+  const credentials = { email, password };
+  loginUser(credentials);
+}
 // عرض بيانات حساب المستخدم (Get User Info)
 function getUser(id) {
   fetch(`http://localhost:9000/api/auth/user/${id}`, {
