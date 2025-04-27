@@ -28,4 +28,25 @@ router.delete("/quizzes/:userId", (req, res) => {
         res.status(200).json({ message: "Scores reset!" }); 
     }); 
 });
+
+// for Quiz Level 1
+router.get('/level1', (req, res) => {
+    const sql = "SELECT * FROM questions WHERE quiz_id = 1";
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(results);
+    });
+});
+
+// for Quiz Level 2
+router.get('/level2', (req, res) => {
+    const sql = "SELECT * FROM questions WHERE quiz_id = 2";
+    db.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json(results);
+    });
+});
+
+
+
 module.exports = router;
