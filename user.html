@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CodeQuest | User Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<style>
+* {
+box-sizing: border-box;
+}
+body {
+background-color: #1B263B;
+color: #E0E1DD;
+font-family: 'Roboto', sans-serif;
+margin: 0;
+padding: 0;
+}
+header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #0D1B2A;
+padding: 15px 30px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+position: sticky;
+top: 0;
+z-index: 1000;
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+header:hover {
+background-color: #0f253a;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+.logo-container {
+display: flex;
+align-items: center;
+gap: 10px;
+cursor: pointer;
+transition: transform 0.3s ease, color 0.3s ease;
+}
+.logo-container:hover {
+transform: scale(1.05);
+color: #778DA9;
+}
+.logo {
+width: 80px;
+height: auto;
+}
+.text-content {
+display: flex;
+flex-direction: column;
+justify-content: center;
+line-height: 1.2;
+}
+.site-name {
+font-family: 'Playfair Display', serif;
+font-size: 1.6rem;
+font-weight: bold;
+margin: 0;
+}
+.slogan {
+font-size: 0.85rem;
+color: #778DA9;
+margin: 2px 0 0 0;
+}
+h1 {
+font-family: 'Playfair Display', serif;
+font-size: 2rem;
+margin: 0;
+}
+.container {
+max-width: 1000px;
+margin: 30px auto;
+padding: 20px;
+}
+.card {
+background-color: #415A77;
+border-radius: 20px;
+padding: 25px;
+margin-bottom: 30px;
+box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.profile-header {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+.profile-pic {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+background-color: #0D1B2A;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 2rem;
+color: #E0E1DD;
+overflow: hidden;
+}
+.profile-info p {
+margin: 6px 0;
+}
+button {
+background-color: #778DA9;
+color: white;
+border: none;
+padding: 10px 20px;
+margin-top: 10px;
+margin-right: 10px;
+border-radius: 12px;
+cursor: pointer;
+transition: 0.3s ease;
+}
+button:hover {
+background-color: #60748c;
+}
+.section-title {
+font-family: 'Libre Baskerville', serif;
+margin-bottom: 10px;
+}
+.item-list {
+list-style: none;
+padding-left: 0;
+}
+/* FOOTER */
+footer {
+  background-color: #0D1B2A;
+  color: #E0E1DD;
+  padding: 20px 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 4;
+  clear: both;
+  position: relative;
+  z-index: 10;
+}
+footer a {
+color: #778DA9;
+text-decoration: none;
+font-weight: bold;
+}
+footer a:hover {
+text-decoration: underline;
+}
+footer .footer-links {
+margin-top: 15px;
+font-size: 1rem;
+}
+footer .footer-links span {
+margin: 0 10px;
+}
+.item-list li {
+background-color: #0D1B2A;
+margin-bottom: 10px;
+padding: 12px;
+border-radius: 10px;
+}
+@media (max-width: 600px) {
+.profile-header {
+flex-direction: column;
+text-align: center;
+}
+.profile-pic {
+width: 80px;
+height: 80px;
+font-size: 1.5rem;
+}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo-container">
+<img src="codequest-logo.png" alt="CodeQuest Logo" class="logo" />
+<div class="text-content">
+<div class="site-name">CodeQuest</div>
+<div class="slogan">Explore. Learn. Conquer.</div>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="card">
+<div class="profile-header">
+<div class="profile-pic" id="profile-pic">👤</div>
+<div class="profile-info">
+<p><strong>Name:</strong> <span id="user-name">Loading...</span></p>
+<p><strong>Email:</strong> <span id="user-email">Loading...</span></p>
+<p><strong>Password:</strong> ********</p>
+<button onclick="editProfile()">Edit Info</button>
+<button onclick="changePic()">Change Picture</button>
+<button onclick="logout()">Logout</button>
+</div>
+</div>
+</div>
+<!-- Bookmarked Topics -->
+<div class="card">
+<h2 class="section-title">📌 Bookmarked Topics</h2>
+<ul class="item-list" id="bookmark-list">
+<li>Loading bookmarks...</li>
+</ul>
+</div>
+<!-- Quiz Results -->
+<div class="card">
+<h2 class="section-title">📊 Quiz Scores</h2>
+<ul class="item-list" id="quiz-list">
+<li>Loading scores...</li>
+</ul>
+</div>
+<footer>
+<div>&copy; 2025 CodeQuest. All Rights Reserved.</div>
+<div class="footer-links">
+<span><a href="/privacy-policy.html">Privacy Policy</a></span>
+<span><a href="/terms-of-use.html">Terms of Use</a></span>
+<span><a href="/about-us.html">About Us</a></span>
+<span><a href="/contact-us.html">Contact Us</a></span>
+</div>
+</footer>
+<script src="fetchtopics.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+// fetch & render profile, bookmarks, quiz scores
+fetchUserInfo().catch(err => console.error("Load error:", err));
+const form  = document.getElementById('user-form');
+const save  = document.getElementById('save-btn');
+const edit  = document.getElementById('edit-btn');
+edit.addEventListener('click', () => {
+form.querySelectorAll('input').forEach(i => i.readOnly = false);
+save.disabled = false;
+edit.disabled = true;
+});
+form.addEventListener('submit', e => {
+e.preventDefault();
+const data = {
+username: form.username.value,
+email:    form.email.value,
+fullname: form.fullname.value
+};
+updateUserInfo(data)
+.then(() => {
+form.querySelectorAll('input').forEach(i => i.readOnly = true);
+save.disabled = true;
+edit.disabled = false;
+alert('Profile updated!');
+})
+.catch(() => alert('Update failed.'));
+});
+});
+</script>
+</body>
+</html>
