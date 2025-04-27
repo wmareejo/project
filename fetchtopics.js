@@ -109,22 +109,24 @@ document.getElementById("login-form").addEventListener("keypress", function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if a user is logged in (for example, using localStorage)
-    const isLoggedIn = localStorage.getItem('loggedIn');
+  const isLoggedIn = localStorage.getItem('loggedIn');
 
-    const loginSignupButtons = document.getElementById('login-signup-buttons');
-    const logoutButton = document.getElementById('logout-button');
+  const loginSignupButtons = document.getElementById('login-signup-buttons');
+  const logoutButton = document.getElementById('logout-button');
 
-    if (isLoggedIn) {
-        // Show "Logout" button and hide "Login/Sign Up" buttons
-        loginSignupButtons.style.display = 'none'; // Hide login/signup
-        logoutButton.style.display = 'block'; // Show logout
-    } else {
-        // Show "Login/Sign Up" buttons and hide "Logout" button
-        loginSignupButtons.style.display = 'block'; // Show login/signup
-        logoutButton.style.display = 'none'; // Hide logout
-    }
+  if (loginSignupButtons && logoutButton) {   // ✅ SAFETY CHECK
+      if (isLoggedIn) {
+          loginSignupButtons.style.display = 'none';
+          logoutButton.style.display = 'block';
+      } else {
+          loginSignupButtons.style.display = 'block';  // 🔥 this won't crash now
+          logoutButton.style.display = 'none';
+      }
+  } else {
+      console.warn("Login/Signup buttons not found in HTML.");
+  }
 });
+
 
 // Logout functionality
 const logoutButton = document.getElementById('logout-button');
@@ -312,9 +314,25 @@ function deleteQuizResult(userId) {
 }
 
 // البحث عن المواضيع
-function searchTopics(keyword) {
-  fetch(`http://localhost:9000/api/search/topics/search/${keyword}`)
-    .then(res => res.json())
-    .then(data => console.log(`Search Results for "${keyword}":`, data))
-    .catch(err => console.error("Search Topics Error:", err));
+function searchTopic(event) {
+  const searchQuery = document.getElementById("search-input").value;
+  if (!searchQuery.trim()) {
+    return; // Do nothing if the search query is empty
+  }
+  console.log("Searching for:", searchQuery);
+
+  fetch(`http://localhost:9000/api/topics/search/${encodeURIComponent(searchQuery)}`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`Search failed with status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log('Search results:', data);
+      // Handle displaying search results here
+    })
+    .catch(err => {
+      console.error("Search error:", err);
+    });
 }

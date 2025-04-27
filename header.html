@@ -296,7 +296,7 @@ text-align: left;
 </div>
 </div>
 <div class="search-bar">
-<input type="text" placeholder="Search topics..." onkeyup="searchTopic(event)">
+  <input type="text" id="search-input" placeholder="Search topics..." onkeyup="searchTopic(event)">
 </div>
 <div class="user-section" onclick="openModal()">
 <span class="material-symbols-outlined user-icon">account_circle</span>
@@ -435,6 +435,9 @@ heroSection.style.transform = 'scale(1)';
 <input type="password" placeholder="Password" id="login-password" />
 <button onclick="login()">Login</button>
 <p id="switch-to-signup" style="text-align: center; color: #778DA9; cursor: pointer;" onclick="switchToSignUp()">Don't have an account? Sign Up</p>
+<div id="login-signup-buttons">
+</div>
+<button id="logout-button" style="display: none;">Logout</button>
 </div>
 </div>
 </div>
