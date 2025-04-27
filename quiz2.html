@@ -72,9 +72,10 @@
 
         .navigation-buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             margin-top: 20px;
             align-items: center;
+            gap: 10px;
         }
 
         .navigation-buttons button {
@@ -91,16 +92,26 @@
             background-color: #415A77;
         }
 
-        #result-message {
+        #result-container {
             display: none;
+            margin-top: 30px;
             padding: 20px;
             background-color: #778DA9;
             border-radius: 8px;
             color: #E0E1DD;
             text-align: center;
             font-size: 1.2rem;
-            margin-top: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #score-display {
+            font-weight: bold;
+            color: #E0E1DD;
+        }
+
+        #encouragement-message {
+            margin-top: 10px;
+            color: #E0E1DD;
         }
 
         #retake-button {
@@ -128,7 +139,6 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            display: none;
         }
 
         #submit-button:hover {
@@ -144,13 +154,13 @@
     <div class="navigation-buttons">
         <button id="prev-button" style="display: none;">Previous</button>
         <button id="next-button">Next</button>
+        <button id="submit-button" style="display: none;">Submit Quiz</button>
     </div>
-    <button id="submit-button">Submit Quiz</button>
-    <div id="result-message">
-        <h2>Your Score: <span id="score-display"></span> / 10</h2>
+    <div id="result-container">
+        <h2>Your Score: <span id="score-display"></span> / <span id="total-questions"></span></h2>
         <p id="encouragement-message"></p>
+        <button id="retake-button" style="display: none;">Retake Quiz</button>
     </div>
-    <button id="retake-button" style="display: none;">Retake Quiz</button>
 </div>
 
 <script>
@@ -164,15 +174,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
         const submitButton = document.getElementById('submit-button');
-        const resultMessage = document.getElementById('result-message');
+        const resultContainer = document.getElementById('result-container');
         const scoreDisplay = document.getElementById('score-display');
+        const totalQuestionsDisplay = document.getElementById('total-questions');
         const encouragementMessage = document.getElementById('encouragement-message');
         const retakeButton = document.getElementById('retake-button');
         let currentQuestionIndex = 0;
-        let selectedAnswers = [];
+        let selectedAnswers = {};
         let score = 0;
 
-        // Render the questions dynamically
+        totalQuestionsDisplay.textContent = questions.length;
+
         questions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
             questionDiv.classList.add('quiz-question');
@@ -180,16 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let optionsHtml = '';
 
             if (question.question_type === "Multiple Choice") {
-                optionsHtml = `
-                    <div class="quiz-option" data-answer="A">${question.option_a}</div>
-                    <div class="quiz-option" data-answer="B">${question.option_b}</div>
-                    <div class="quiz-option" data-answer="C">${question.option_c}</div>
-                    <div class="quiz-option" data-answer="D">${question.option_d}</div>
+                optionsHtml = ` 
+                    <div class="quiz-option" data-question-index="${index}" data-answer="A">${question.option_a}</div>
+                    <div class="quiz-option" data-question-index="${index}" data-answer="B">${question.option_b}</div>
+                    <div class="quiz-option" data-question-index="${index}" data-answer="C">${question.option_c}</div>
+                    <div class="quiz-option" data-question-index="${index}" data-answer="D">${question.option_d}</div>
                 `;
             } else if (question.question_type === "True/False") {
                 optionsHtml = `
-                    <div class="quiz-option" data-answer="True">True</div>
-                    <div class="quiz-option" data-answer="False">False</div>
+                    <div class="quiz-option" data-question-index="${index}" data-answer="True">True</div>
+                    <div class="quiz-option" data-question-index="${index}" data-answer="False">False</div>
                 `;
             }
 
@@ -202,20 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
             quizContainer.appendChild(questionDiv);
         });
 
-        // Show the current question
         function showQuestion(index) {
             const allQuestions = document.querySelectorAll('.quiz-question');
             allQuestions.forEach((question, i) => {
                 question.style.display = i === index ? 'block' : 'none';
             });
 
-            // Handle navigation button visibility
             prevButton.style.display = index === 0 ? 'none' : 'inline-block';
             nextButton.style.display = index === allQuestions.length - 1 ? 'none' : 'inline-block';
             submitButton.style.display = index === allQuestions.length - 1 ? 'inline-block' : 'none';
         }
 
-        // Select answer function
         function selectAnswer(optionElement, questionIndex) {
             const options = optionElement.parentElement.querySelectorAll('.quiz-option');
             options.forEach(opt => opt.classList.remove('selected'));
@@ -223,15 +232,13 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedAnswers[questionIndex] = optionElement.getAttribute('data-answer');
         }
 
-        // Listen for option clicks to select an answer
         document.addEventListener('click', (event) => {
             if (event.target.classList.contains('quiz-option')) {
-                const questionIndex = Array.from(event.target.parentElement.parentElement.children).indexOf(event.target.parentElement);
+                const questionIndex = parseInt(event.target.getAttribute('data-question-index'));
                 selectAnswer(event.target, questionIndex);
             }
         });
 
-        // Show the next question
         nextButton.addEventListener('click', () => {
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
@@ -239,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Show the previous question
         prevButton.addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
@@ -247,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Submit quiz and calculate score
         submitButton.addEventListener('click', () => {
             score = 0;
             questions.forEach((question, index) => {
@@ -257,36 +262,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             scoreDisplay.textContent = score;
-
-            // Display encouragement message
-            if (score >= 8) {
-                encouragementMessage.textContent = "Great job! You're a quiz master!";
+            resultContainer.style.display = 'block';
+            if (score === questions.length) {
+                encouragementMessage.textContent = "Excellent! You've got all the answers correct!";
+            } else if (score >= questions.length / 2) {
+                encouragementMessage.textContent = "Great job! You passed!";
             } else {
-                encouragementMessage.textContent = "Better luck next time! Keep practicing!";
+                encouragementMessage.textContent = "Keep trying! You can do better next time.";
             }
-
-            resultMessage.style.display = 'block';
             retakeButton.style.display = 'inline-block';
         });
 
-        // Retake quiz
         retakeButton.addEventListener('click', () => {
-            selectedAnswers = [];
+            selectedAnswers = {};
             score = 0;
-            resultMessage.style.display = 'none';
-            retakeButton.style.display = 'none';
-            currentQuestionIndex = 0;
-            showQuestion(currentQuestionIndex);
+            resultContainer.style.display = 'none';
+            showQuestion(0);
         });
 
-        // Initially show the first question
         showQuestion(currentQuestionIndex);
     })
-    .catch(err => {
-        console.error('Error fetching quiz:', err);
-        document.getElementById('quiz-title').textContent = 'Error Loading Quiz';
-        document.getElementById('quiz-questions').textContent = 'There was an issue fetching the quiz.';
-    });
+    .catch(error => console.error('Error fetching quiz data:', error));
 });
 </script>
 
