@@ -1,250 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topic Details - CodeQuest</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #1B263B;
-            color: #E0E1DD;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #0D1B2A;
-            padding: 15px 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        header:hover {
-            background-color: #0f253a;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .logo-container:hover {
-            transform: scale(1.05);
-            color: #778DA9;
-        }
-
-        .logo {
-            width: 80px;
-            height: auto;
-        }
-
-        .text-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            line-height: 1.2;
-        }
-
-        .site-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .slogan {
-            font-size: 0.85rem;
-            color: #778DA9;
-            margin: 2px 0 0 0;
-        }
-
-        .search-bar {
-            flex-grow: 1;
-            max-width: 420px;
-            margin: 0 30px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 10px 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            background-color: #3A4C6C;
-            color: #E0E1DD;
-        }
-
-        .search-bar input:focus {
-            box-shadow: 0 0 10px #778DA9;
-            background-color: #475A73;
-        }
-
-        
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic Details - CodeQuest</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<style>
+* {
+box-sizing: border-box;
+}
+body {
+margin: 0;
+font-family: 'Roboto', sans-serif;
+background-color: #1B263B;
+color: #E0E1DD;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+main {
+flex: 1;
+}
+header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: #0D1B2A;
+padding: 15px 30px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+position: sticky;
+top: 0;
+z-index: 1000;
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+header:hover {
+background-color: #0f253a;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+.logo-container {
+display: flex;
+align-items: center;
+gap: 10px;
+cursor: pointer;
+transition: transform 0.3s ease, color 0.3s ease;
+}
+.logo-container:hover {
+transform: scale(1.05);
+color: #778DA9;
+}
+.logo {
+width: 80px;
+height: auto;
+}
+.text-content {
+display: flex;
+flex-direction: column;
+justify-content: center;
+line-height: 1.2;
+}
+.site-name {
+font-family: 'Playfair Display', serif;
+font-size: 1.6rem;
+font-weight: bold;
+margin: 0;
+}
+.slogan {
+font-size: 0.85rem;
+color: #778DA9;
+margin: 2px 0 0 0;
+}
+.search-bar {
+flex-grow: 1;
+max-width: 420px;
+margin: 0 30px;
+position: relative;
+}
+.search-bar input {
+width: 100%;
+padding: 10px 14px;
+border: none;
+border-radius: 8px;
+font-size: 1rem;
+outline: none;
+transition: all 0.3s ease;
+background-color: #3A4C6C;
+color: #E0E1DD;
+}
+.search-bar input:focus {
+box-shadow: 0 0 10px #778DA9;
+background-color: #475A73;
+}
 /* FOOTER */
 footer {
-  background-color: #0D1B2A;
-  color: #E0E1DD;
-  padding: 20px 30px;
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 4;
-  clear: both;
-  position: relative;
-  z-index: 10;
+background-color: #0D1B2A;
+color: #E0E1DD;
+padding: 20px 30px;
+text-align: center;
+font-size: 0.9rem;
+margin-top: 4;
+clear: both;
+position: static;
+z-index: 1;
 }
-
-    footer a {
-      color: #778DA9;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    footer .footer-links {
-      margin-top: 15px;
-      font-size: 1rem;
-    }
-
-    footer .footer-links span {
-      margin: 0 10px;
-    }
-    #topic-details {
-    max-width: 900px;
-    margin: 60px auto;
-    padding: 40px;
-    background-color: #415A77;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+footer a {
+color: #778DA9;
+text-decoration: none;
+font-weight: bold;
 }
-
-#topic-details:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+footer a:hover {
+text-decoration: underline;
 }
-
-#topic-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    color: #E0E1DD;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #E0E1DD;
-    padding-bottom: 10px;
+footer .footer-links {
+margin-top: 15px;
+font-size: 1rem;
 }
-
-#topic-content {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #F0F1F5;
-    white-space: pre-wrap; /* Preserves formatting from backend */
+footer .footer-links span {
+margin: 0 10px;
 }
 #topic-details {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease forwards;
+max-width: 900px;
+margin: 60px auto;
+padding: 40px;
+background-color: #415A77;
+border-radius: 20px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+#topic-details:hover {
+transform: translateY(-5px);
+box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+}
+#topic-title {
+font-family: 'Playfair Display', serif;
+font-size: 2.2rem;
+color: #E0E1DD;
+margin-bottom: 25px;
+border-bottom: 2px solid #E0E1DD;
+padding-bottom: 10px;
+}
+#topic-content {
+font-family: 'Roboto', sans-serif;
+font-size: 1.15rem;
+line-height: 1.8;
+color: #F0F1F5;
+white-space: pre-wrap;
+}
+#topic-details {
+opacity: 0;
+transform: translateY(20px);
+animation: fadeInUp 0.8s ease forwards;
+}
+.topic-actions {
+display: flex;
+justify-content: flex-start;
+gap: 15px;
+margin-top: 20px;
+}
+.action-btn {
+padding: 10px 15px;
+background-color: #778DA9;
+color: #E0E1DD;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-size: 1rem;
+transition: background-color 0.3s ease;
+}
+.action-btn:hover {
+background-color: #6c7e99;
+}
+#bookmark-btn {
+display: none;
+}
 @keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+to {
+opacity: 1;
+transform: translateY(0);
 }
-
-    
-    </style>
+}  
+</style>
 </head>
 <body>
-
 <header>
-    <div class="logo-container">
-        <img src="codequest-logo.png" alt="CodeQuest Logo" class="logo" />
-        <div class="text-content">
-            <div class="site-name">CodeQuest</div>
-            <div class="slogan">Explore. Learn. Conquer.</div>
-        </div>
-    </div>
-
-    <div class="search-bar">
-        <input type="text" placeholder="Search topics..." onkeyup="searchTopic(event)">
-    </div>
-
-    <div class="user-section" onclick="openModal()">
-        <span class="material-symbols-outlined user-icon">account_circle</span>
-        <span class="user-text">Sign Up / Login</span>
-    </div>
+<div class="logo-container">
+<img src="codequest-logo.png" alt="CodeQuest Logo" class="logo" />
+<div class="text-content">
+<div class="site-name">CodeQuest</div>
+<div class="slogan">Explore. Learn. Conquer.</div>
+</div>
+</div>
+<div class="search-bar">
+<input type="text" placeholder="Search topics..." onkeyup="searchTopic(event)">
+</div>
+<div class="user-section" onclick="openModal()">
+<span class="material-symbols-outlined user-icon">account_circle</span>
+<span class="user-text">Sign Up / Login</span>
+</div>
 </header>
-
 <main>
-    <section id="topic-details" class="topic-container">
-      <h1 id="topic-title" class="topic-title">Loading...</h1>
-      <article id="topic-content" class="topic-body">
-        Please wait while we fetch the content...
-      </article>
-    </section>
-  </main>
-  
+<section id="topic-details" class="topic-container">
+<h1 id="topic-title" class="topic-title">Loading...</h1>
+<article id="topic-content" class="topic-body">
+Please wait while we fetch the content...
+</article>
+<div class="topic-actions">
+<button id="share-btn" class="action-btn" onclick="shareTopic()">Share</button>
+<button id="bookmark-btn" class="action-btn" onclick="bookmarkTopic()" style="display: none;">Bookmark</button>
+</div>
+</section>
+</main> 
 <footer>
-    <p>&copy; 2025 CodeQuest. All rights reserved.</p>
+<div>&copy; 2025 CodeQuest. All Rights Reserved.</div>
+<div class="footer-links">
+<span><a href="/privacy-policy.html">Privacy Policy</a></span>
+<span><a href="/terms-of-use.html">Terms of Use</a></span>
+<span><a href="/about-us.html">About Us</a></span>
+<span><a href="/contact-us.html">Contact Us</a></span>
+</div>
 </footer>
-
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const topicId = urlParams.get('id'); 
-
-        if (topicId) {
-            fetchTopicById(topicId);
-        } else {
-            console.error('Topic ID is missing in the URL.');
-        }
-
-        function fetchTopicById(id) {
-            document.getElementById("topic-title").textContent = "Loading...";
-            document.getElementById("topic-content").textContent = "Please wait while we fetch the content...";
-
-            fetch(`http://localhost:9000/api/lists/topics/${id}`)
-                .then(res => res.json())
-                .then(topic => {
-    console.log("Fetched topic:", topic); // helpful for debugging
-    document.getElementById("topic-title").textContent = topic.topic_name;
-    document.getElementById("topic-content").textContent = topic.content;
+document.addEventListener('DOMContentLoaded', () => {
+const urlParams = new URLSearchParams(window.location.search);
+const topicId = urlParams.get('id'); 
+if (topicId) {
+fetchTopicById(topicId);
+} else {
+console.error('Topic ID is missing in the URL.');
+}
+function fetchTopicById(id) {
+document.getElementById("topic-title").textContent = "Loading...";
+document.getElementById("topic-content").textContent = "Please wait while we fetch the content...";
+fetch(`http://localhost:9000/api/lists/topics/${id}`)
+.then(res => res.json())
+.then(topic => {
+console.log("Fetched topic:", topic); // helpful for debugging
+document.getElementById("topic-title").textContent = topic.topic_name;
+document.getElementById("topic-content").textContent = topic.content;
 })
-
-                .catch(err => {
-                    console.error("Error fetching topic:", err);
-                    document.getElementById("topic-title").textContent = "Error Loading Topic";
-                    document.getElementById("topic-content").textContent = "There was an issue fetching the content.";
-                });
-        }
-    });
+.catch(err => {
+console.error("Error fetching topic:", err);
+document.getElementById("topic-title").textContent = "Error Loading Topic";
+document.getElementById("topic-content").textContent = "There was an issue fetching the content.";
+});
+}
+});
 </script>
-
 <script src="fetchtopics.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+const urlParams = new URLSearchParams(window.location.search);
+const topicId = urlParams.get('id'); 
+if (topicId) {
+fetchTopicById(topicId);
+} else {
+console.error('Topic ID is missing in the URL.');
+}
+// Check if user is logged in
+const user = JSON.parse(localStorage.getItem('user')); // Assuming 'user' is stored in localStorage    
+if (user) {
+document.getElementById("bookmark-btn").style.display = "inline-block"; // Show bookmark button
+}
+// Share button action
+window.shareTopic = function() {
+const topicTitle = document.getElementById("topic-title").textContent;
+const topicUrl = window.location.href;   
+if (navigator.share) {
+navigator.share({
+title: topicTitle,
+url: topicUrl
+})
+.then(() => console.log('Topic shared successfully!'))
+.catch((err) => console.log('Error sharing topic:', err));
+} else {
+alert("Sharing is not supported on your browser. You can copy the URL: " + topicUrl);
+}
+};
+// Bookmark button action
+window.bookmarkTopic = function() {
+const topicId = urlParams.get('id');
+if (user) {
+// Send a request to your backend to save the bookmarked topic
+fetch(`/api/bookmarks/${user.id}`, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ topicId })
+})
+.then(response => response.json())
+.then(data => {
+alert('Topic bookmarked successfully!');
+})
+.catch(err => console.error("Error bookmarking topic:", err));
+} else {
+alert('Please log in to bookmark topics!');
+}
+};
+})
+</script>
 </body>
 </html>

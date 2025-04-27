@@ -43,12 +43,12 @@ router.post("/register", async (req, res) => {
 
 // تسجيل دخول المستخدم
 router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { identifier, password } = req.body;
+    if (!identifier || !password) {
         return res.status(400).json({ message: "All fields are required." });
     }
-    const sql = "SELECT * FROM users WHERE email = ?";
-    db.query(sql, [email], async (err, results) => {
+    const sql = "SELECT * FROM users WHERE username = ? OR email = ?"; 
+    db.query(sql, [identifier, identifier], async (err, results) => { 
         if (err) return res.status(500).json({ error: err.message });
 
         if (results.length === 0) {
