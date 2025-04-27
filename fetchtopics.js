@@ -3,27 +3,32 @@ function validatePassword(password) {
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
   return passwordRegex.test(password);
 }
+
 // Open the modal
 function openModal() {
   const modal = document.getElementById("modal");
   modal.style.display = "flex"; // Ensure the modal is displayed as flex
   modal.style.transform = 'none'; // Reset transform to center it again
 }
+
 // Switch to Login Form
 function switchToLogin() {
   document.getElementById("signup-form").style.display = "none";
   document.getElementById("login-form").style.display = "block";
 }
+
 // Switch to Sign Up Form
 function switchToSignUp() {
   document.getElementById("login-form").style.display = "none";
   document.getElementById("signup-form").style.display = "block";
 }
+
 // Close the modal
 function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
-// إنشاء حساب مستخدم جديد (Register)
+
+// Register new user (Create Account)
 function registerUser(userData) {
   return fetch("http://localhost:9000/api/auth/register", {
     method: "POST",
@@ -46,19 +51,23 @@ function registerUser(userData) {
       throw err;
     });
 }
+
 function signup() {
   const username = document.getElementById("signup-username").value;
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
+  
   if (!validatePassword(password)) {
     alert("Password must contain at least 8 characters, including uppercase, lowercase, numbers, and symbols.");
     return; 
   }
+  
   const userData = { username, email, password };
-registerUser(userData)
-    .then(() => {
+  
+  registerUser(userData)
+    .then((result) => {
       // After successful sign-up
-localStorage.setItem("user", JSON.stringify(result.user));  // Save user data in localStorage
+      localStorage.setItem("user", JSON.stringify(result.user));  // Save user data in localStorage
 
       // Close the modal after successful registration
       closeModal();
@@ -70,8 +79,16 @@ localStorage.setItem("user", JSON.stringify(result.user));  // Save user data in
     });
 }
 
-// تسجيل دخول (Login)
+// Login functionality
 function login(identifier, password) {
+  // Validate that both fields are filled
+  if (!identifier || !password) {
+    alert("Both fields are required!");
+    return;
+  }
+
+  console.log("Login Request Data:", { identifier, password });
+
   fetch("http://localhost:9000/api/auth/login", {
     method: "POST",
     headers: {
@@ -79,34 +96,40 @@ function login(identifier, password) {
     },
     body: JSON.stringify({ identifier, password })
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.message === "Login successful!") {
-        alert("Login successful!");
-        localStorage.setItem("user", JSON.stringify(data.user)); // Save user data to localStorage
-        window.location.href = "user.html"; // Redirect to user profile page
-      } else {
-        alert("Login failed: " + data.message);
-      }
-    })
-    .catch(err => {
-      console.error("Login Error:", err);
-      alert("Login failed.");
-    });
+  .then(res => res.json())
+  .then(data => {
+    console.log("Login Response:", data);
+    if (data.message === "Login successful!") {
+      alert("Login successful!");
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "user.html"; // Redirect to user profile page
+    } else {
+      alert("Login failed: " + data.message);
+    }
+  })
+  .catch(err => {
+    console.error("Login Error:", err);
+    alert("Login failed.");
+  });
+}
+// Handle Enter Key Press for form submission
+const signupForm = document.getElementById("signup-form");
+if (signupForm) {
+  signupForm.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      signup();  // Trigger signup function when Enter is pressed
+    }
+  });
 }
 
-// Handle Enter Key Press for form submission
-document.getElementById("signup-form").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    signup();  // Trigger signup function when Enter is pressed
-  }
-});
-
-document.getElementById("login-form").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    login();  // Trigger login function when Enter is pressed
-  }
-});
+const loginForm = document.getElementById("login-form");
+if (loginForm) {
+  loginForm.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      login();  // Trigger login function when Enter is pressed
+    }
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const isLoggedIn = localStorage.getItem('loggedIn');
@@ -115,31 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const logoutButton = document.getElementById('logout-button');
 
   if (loginSignupButtons && logoutButton) {   // ✅ SAFETY CHECK
-      if (isLoggedIn) {
-          loginSignupButtons.style.display = 'none';
-          logoutButton.style.display = 'block';
-      } else {
-          loginSignupButtons.style.display = 'block';  // 🔥 this won't crash now
-          logoutButton.style.display = 'none';
-      }
+    if (isLoggedIn) {
+      loginSignupButtons.style.display = 'none';
+      logoutButton.style.display = 'block';
+    } else {
+      loginSignupButtons.style.display = 'block';  // 🔥 this won't crash now
+      logoutButton.style.display = 'none';
+    }
   } else {
-      console.warn("Login/Signup buttons not found in HTML.");
+    console.warn("Login/Signup buttons not found in HTML.");
   }
 });
 
-
-// Logout functionality
-const logoutButton = document.getElementById('logout-button');
-if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-        // Remove login data from localStorage
-        localStorage.removeItem('loggedIn');
-        // Redirect to homepage or login page
-        window.location.href = '/';  // or wherever you want to redirect
-    });
-}
-
-// عرض بيانات حساب المستخدم (Get User Info)
+// Fetch User Info (Get)
 function getUser(id) {
   fetch(`http://localhost:9000/api/auth/user/${id}`, {
     headers: {
@@ -151,7 +162,7 @@ function getUser(id) {
     .catch(err => console.error("Get User Error:", err));
 }
 
-// تحديث حساب المستخدم (Update)
+// Update User Info (Put)
 function updateUser(id, updatedData) {
   fetch(`http://localhost:9000/api/auth/user/${id}`, {
     method: "PUT",
@@ -166,7 +177,7 @@ function updateUser(id, updatedData) {
     .catch(err => console.error("Update Error:", err));
 }
 
-// حذف حساب المستخدم (Delete)
+// Delete User (Delete)
 function deleteUser(id) {
   fetch(`http://localhost:9000/api/auth/user/${id}`, {
     method: "DELETE",
@@ -179,12 +190,11 @@ function deleteUser(id) {
     .catch(err => console.error("Delete Error:", err));
 }
 
-
 function fetchUserInfo() {
   const userId = localStorage.getItem("userId");
   return getUser(userId)
     .then(data => {
-      document.getElementById("user-name").textContent  = data.name;
+      document.getElementById("user-name").textContent = data.name;
       document.getElementById("user-email").textContent = data.email;
       // populate bookmarks
       const bmList = document.getElementById("bookmark-list");
@@ -205,12 +215,11 @@ function updateUserInfo(updatedData) {
   return updateUser(userId, updatedData);
 }
 
-// expose to the page
-window.fetchUserInfo  = fetchUserInfo;
+// Expose to the page
+window.fetchUserInfo = fetchUserInfo;
 window.updateUserInfo = updateUserInfo;
 
-
-// عرض جميع المواضيع
+// Fetch all Topics
 function fetchAllTopics() {
   fetch("http://localhost:9000/api/lists/topics")
     .then(res => {
@@ -223,15 +232,20 @@ function fetchAllTopics() {
     .catch(err => console.error("Fetch Topics Error:", err));
 }
 
-// عرض موضوع معين
+// Fetch Topic by ID
 function fetchTopicById(topicId) {
   fetch(`http://localhost:9000/api/lists/topics/${topicId}`)
     .then(res => res.json())
-    .then(data => console.log("Topic by ID:", data))
+    .then(data => {
+      // Populate the topic details on the page
+      document.getElementById("topic-title").textContent = data.topic_name;
+      document.getElementById("topic-content").textContent = data.content;
+    })
     .catch(err => console.error("Fetch Topic by ID Error:", err));
 }
 
-// إضافة علامة مرجعية
+
+// Add Bookmark
 function addBookmark(bookmarkData) {
   fetch("http://localhost:9000/api/bookmarks/bookmarks", {
     method: "POST",
@@ -246,7 +260,7 @@ function addBookmark(bookmarkData) {
     .catch(err => console.error("Add Bookmark Error:", err));
 }
 
-// عرض العلامات المرجعية
+// Fetch Bookmarks
 function fetchBookmarks(userId) {
   fetch(`http://localhost:9000/api/bookmarks/bookmarks/${userId}`, {
     headers: {
@@ -258,7 +272,7 @@ function fetchBookmarks(userId) {
     .catch(err => console.error("Fetch Bookmarks Error:", err));
 }
 
-// حذف علامة مرجعية
+// Delete Bookmark
 function deleteBookmark(bookmarkId) {
   fetch("http://localhost:9000/api/bookmarks/bookmarks", {
     method: "DELETE",
@@ -273,7 +287,7 @@ function deleteBookmark(bookmarkId) {
     .catch(err => console.error("Delete Bookmark Error:", err));
 }
 
-// حفظ نتائج الكويز
+// Save Quiz Result
 function saveQuizResult(resultData) {
   fetch("http://localhost:9000/api/quizzes/quizzes", {
     method: "POST",
@@ -288,7 +302,7 @@ function saveQuizResult(resultData) {
     .catch(err => console.error("Save Quiz Result Error:", err));
 }
 
-// عرض نتائج الكويز
+// Fetch Quiz Result
 function fetchQuizResult(userId) {
   fetch(`http://localhost:9000/api/quizzes/quizzes/${userId}`, {
     headers: {
@@ -300,7 +314,7 @@ function fetchQuizResult(userId) {
     .catch(err => console.error("Fetch Quiz Result Error:", err));
 }
 
-// حذف نتائج الكويز
+// Delete Quiz Result
 function deleteQuizResult(userId) {
   fetch(`http://localhost:9000/api/quizzes/quizzes/${userId}`, {
     method: "DELETE",
@@ -312,27 +326,43 @@ function deleteQuizResult(userId) {
     .then(data => console.log("Quiz Result Deleted:", data))
     .catch(err => console.error("Delete Quiz Result Error:", err));
 }
+// Search Topics by keyword
+function searchTopics(keyword) {
+  console.log("Searching for:", keyword);
 
-// البحث عن المواضيع
-function searchTopic(event) {
-  const searchQuery = document.getElementById("search-input").value;
-  if (!searchQuery.trim()) {
-    return; // Do nothing if the search query is empty
-  }
-  console.log("Searching for:", searchQuery);
-
-  fetch(`http://localhost:9000/api/topics/search/${encodeURIComponent(searchQuery)}`)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`Search failed with status: ${res.status}`);
+  fetch(`http://localhost:9000/api/search/topics?keyword=${encodeURIComponent(keyword)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Search failed with status: ${response.status}`);
       }
-      return res.json();
+      return response.json();
     })
     .then(data => {
-      console.log('Search results:', data);
-      // Handle displaying search results here
+      console.log("Search Results:", data);
+      displaySearchResults(data);
     })
-    .catch(err => {
-      console.error("Search error:", err);
+    .catch(error => {
+      console.error("Error during search:", error);
     });
 }
+
+// Display search results
+function displaySearchResults(results) {
+  const searchResultsContainer = document.getElementById('search-results');
+  searchResultsContainer.innerHTML = ''; // Clear previous results
+
+ // Assuming results is an array of topic objects
+if (Array.isArray(results)) {
+ // Assuming `results` is the array of topics
+results.forEach(topic => {
+  const topicItem = document.createElement('a');
+  topicItem.className = 'topic';
+  topicItem.textContent = topic.topic_name;
+  
+  // Link to the topic page (topic.html) with topicId as a query parameter
+  topicItem.href = `topic.html?topicId=${topic.id}`;
+  
+  // Append the topic link to the search results container
+  searchResultsContainer.appendChild(topicItem);
+});
+} }

@@ -86,6 +86,27 @@ color: #E0E1DD;
 box-shadow: 0 0 10px #778DA9;
 background-color: #475A73;
 }
+.search-results {
+  margin: 20px auto 0 auto; /* Center it */
+  width: 60%; /* Limit width */
+  padding: 10px;
+}
+
+.search-results .topic {
+  background-color: #415A77;
+  color: #E0E1DD;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: left;
+  text-decoration: none;
+  display: block; /* Make the whole item clickable */
+}
+.search-results .topic:hover {
+  background-color: #778DA9;
+}
 .user-section {
 display: flex;
 align-items: center;
@@ -296,13 +317,26 @@ text-align: left;
 </div>
 </div>
 <div class="search-bar">
-  <input type="text" id="search-input" placeholder="Search topics..." onkeyup="searchTopic(event)">
+<input type="text" id="search-input" placeholder="Search topics..." onkeyup="searchTopic(event)">
 </div>
+<script>
+function searchTopic(event) {
+const searchTerm = event.target.value.trim();
+if (searchTerm.length === 0) {
+// Optionally, fetch all topics again if search is empty
+console.log("Empty search. You could fetch all topics here.");
+return;
+}
+searchTopics(searchTerm);  // Call the fetch function you made
+}
+</script>
+
 <div class="user-section" onclick="openModal()">
 <span class="material-symbols-outlined user-icon">account_circle</span>
 <span class="user-text">Sign Up / Login</span>
 </div>
 </header>
+<div id="search-results" class="search-results"></div>
 <div class="sidebar">
   <h3>Categories</h3>
   <div class="category" onclick="toggleTopics('programming')">Programming Languages / Coding</div>
